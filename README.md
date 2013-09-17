@@ -1,4 +1,4 @@
 platform_fighter
 ================
 
-Code for CMS.611 Project 2.
+Code for CMS.611J Project 2.
