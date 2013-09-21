@@ -70,7 +70,7 @@ package
 				{
 					player.play("idle");
 				}
-				else //WALKING
+				else
 				{
 					player.play("walk");
 				}
