@@ -4,14 +4,6 @@ package
 	
 	public class Player extends FlxSprite
 	{
-<<<<<<< HEAD
-		public var facingright:Boolean;
-		
-		public function Player(X:Number=0,Y:Number=0,SimpleGraphic:Class=null)
-		{
-			super(X,Y,SimpleGraphic);
-			facingright = true;
-=======
 		[Embed(source='res/player.png')]
 		public static var ImgPlayer:Class;
 		
@@ -47,9 +39,9 @@ package
 			facing = RIGHT;
 		}
 		
-//		public function hit(Projectile projectile){
-//			health -= projectile.power;
-//		}
+		//		public function hit(Projectile projectile){
+		//			health -= projectile.power;
+		//		}
 		
 		override public function update():void
 		{	
@@ -85,10 +77,6 @@ package
 			{
 				play("jump");
 			}
->>>>>>> 9fdfd2758f02628b406a7a3f74a0a336b5323bea
 		}
-		
-
 	}
-	
 }
