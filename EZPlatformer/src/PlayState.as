@@ -10,13 +10,12 @@ package
 	public class PlayState extends FlxState
 	{
 		public var level:FlxTilemap;
+<<<<<<< HEAD
+=======
+		public var player:Player;
+>>>>>>> 9fdfd2758f02628b406a7a3f74a0a336b5323bea
 		public var bg2:FlxTilemap;
 		public var player:Player;
-		
-		[Embed(source='res/jump.mp3')]
-		public static var Mp3Jump:Class;
-		[Embed(source='res/player.png')]
-		public static var ImgPlayer:Class;
 		
 		override public function create():void
 		{
@@ -35,6 +34,7 @@ package
 			level.loadMap(new map_bg, FlxTilemap.ImgAuto, 0, 0, FlxTilemap.AUTO);
 			add(level);
 			
+<<<<<<< HEAD
 			
 			//Create player (a red box)
 			
@@ -52,11 +52,15 @@ package
 			player.maxVelocity.y = 200;
 			player.acceleration.y = 200;
 			player.drag.x = player.maxVelocity.x * 4;
+=======
+			player = new Player();
+>>>>>>> 9fdfd2758f02628b406a7a3f74a0a336b5323bea
 			add(player);
 		}
 		
 		override public function update():void
 		{
+<<<<<<< HEAD
 			player.acceleration.x = 0;
 			if (FlxG.keys.LEFT){
 				player.facing = FlxObject.LEFT;
@@ -91,7 +95,10 @@ package
 			
 			super.update();
 			
+=======
+>>>>>>> 9fdfd2758f02628b406a7a3f74a0a336b5323bea
 			FlxG.collide(level, player);
+			super.update();
 		}
 	}
 }
