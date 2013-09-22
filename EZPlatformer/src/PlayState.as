@@ -2,15 +2,16 @@ package
 {
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
-	import org.flixel.FlxSprite;
+	//import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxTilemap;
+	import Player;
 	
 	public class PlayState extends FlxState
 	{
 		public var level:FlxTilemap;
-		public var player:FlxSprite;
 		public var bg2:FlxTilemap;
+		public var player:Player;
 		
 		[Embed(source='res/jump.mp3')]
 		public static var Mp3Jump:Class;
@@ -36,7 +37,10 @@ package
 			
 			
 			//Create player (a red box)
-			player = new FlxSprite(FlxG.width / 2 - 5);
+			
+			//player = new FlxSprite(FlxG.width / 2 - 5);
+			player = new Player(FlxG.width / 2 - 5);
+			
 			
 			//LOADING GRAPHIC
 			player.loadGraphic(ImgPlayer, true, true, 14, 15);
@@ -44,7 +48,6 @@ package
 			player.addAnimation("idle" /*name of animation*/, [0] /*used frames*/);
 			player.addAnimation("walk", [0, 1, 2, 1], 5 /*frames per second*/);
 			player.addAnimation("jump", [3]);
-			
 			player.maxVelocity.x = 80;
 			player.maxVelocity.y = 200;
 			player.acceleration.y = 200;
@@ -55,10 +58,14 @@ package
 		override public function update():void
 		{
 			player.acceleration.x = 0;
-			if (FlxG.keys.LEFT)
+			if (FlxG.keys.LEFT){
+				player.facing = FlxObject.LEFT;
 				player.acceleration.x = -player.maxVelocity.x * 4;
-			if (FlxG.keys.RIGHT)
+			}
+			if (FlxG.keys.RIGHT){
+				player.facing = FlxObject.RIGHT;
 				player.acceleration.x = player.maxVelocity.x * 4;
+			}
 			if (FlxG.keys.SPACE && player.isTouching(FlxObject.FLOOR))
 			{
 				player.velocity.y = -player.maxVelocity.y / 2;
@@ -67,13 +74,15 @@ package
 			if (player.isTouching(FlxObject.FLOOR))
 			{
 				if (!FlxG.keys.LEFT && !FlxG.keys.RIGHT) //NOT MOVING
-				{
+				{	
 					player.play("idle");
 				}
 				else
 				{
 					player.play("walk");
 				}
+
+				
 			}
 			else //IN AIR
 			{
