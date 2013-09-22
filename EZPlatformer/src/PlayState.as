@@ -31,7 +31,7 @@ package
 			[Embed(source = 'utils/chiptune.mp3')]
 			var chiptune:Class;
 			
-			FlxG.playMusic(chiptune,.5);
+			FlxG.playMusic(chiptune, .5);
 			
 			level = new FlxTilemap();
 			level.loadMap(new map_bg,tiles_bg, 0, 0, FlxTilemap.AUTO);
