@@ -1,6 +1,14 @@
 package
 {
-	import org.flixel.*;
+	import Enemy;
+	
+	import Player;
+	
+	import org.flixel.FlxG;
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxSprite;
+	import org.flixel.FlxState;
+	import org.flixel.FlxTilemap;
 	
 	public class PlayState extends FlxState
 	{
@@ -10,6 +18,8 @@ package
 		public var enemy:Enemy;
 		public var chiptune:Class;
 		public var playerBullets:FlxGroup;
+		public var enemies:FlxGroup = new FlxGroup();
+		public var counter:int = 0;
 		
 		public static var PLAYER_DAMAGE:int = 5;
 		
@@ -56,17 +66,17 @@ package
 			add(player);
 			
 			//Adding in a basic enemy
-			enemy = new Enemy();
-			add(enemy);
+			enemies.add(new Enemy());
+			add(enemies);
 		}
 		
 		override public function update():void
 		{	
 			FlxG.play(chiptune);
 			FlxG.collide(level, player);
-			FlxG.collide(level, enemy);
-			FlxG.overlap(enemy, playerBullets, hitEnemy);
-			FlxG.overlap(player, enemy, hitPlayer);
+			FlxG.collide(level, enemies);
+			FlxG.overlap(enemies, playerBullets, hitEnemy);
+			FlxG.overlap(player, enemies, hitPlayer);
 			super.update();
 		}
 		
@@ -74,6 +84,12 @@ package
 		{
 			enemy.hit(PLAYER_DAMAGE);
 			bullet.kill();
+			counter = counter + 1;
+			if(counter % 5 == 0){
+				var temp:Enemy = recycleEnemy();
+				enemies.add(temp);	
+				counter = 0;
+			}
 		}
 		
 		public function hitPlayer(player:Player, enemy:Enemy):void
@@ -84,6 +100,19 @@ package
 		public function endGame():void
 		{
 			FlxG.switchState(new GameOverState);
+		}
+		
+		public function recycleEnemy():Enemy
+		{
+			var enemy:Enemy = enemies.getFirstAvailable() as Enemy;
+			
+			if(enemy == null){
+				var newEnemy:Enemy = new Enemy();
+				enemies.add(newEnemy);
+				return newEnemy;
+			}
+			
+			return enemy;
 		}
 	}
 }
