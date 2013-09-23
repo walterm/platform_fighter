@@ -42,87 +42,90 @@ package
 			addAnimation("walk", [0, 1, 2, 1], 5 /*frames per second*/);
 			addAnimation("jump", [3]);
 			addAnimation("shoot", [4, 5, 6, 5], 5);
-			addAnimation("shoot_short", [6]);
+			addAnimation("shoot_short", [6], 5, false);
 			
 			maxVelocity.x = MAX_X_VEL;
 			maxVelocity.y = MAX_Y_VEL;
 			acceleration.y = GRAVITY_ACCEL;
 			drag.x = maxVelocity.x * DRAG_FACTOR;
 			facing = RIGHT;
+			
+			play("idle");
 		}
 		
-		//		public function hit(Projectile projectile){
-		//			health -= projectile.power;
-		//		}
+		public function hit(damage:int):void
+		{
+			health -= damage;
+			if (health <= 0){
+				// end the game
+				// TODO
+			}
+		}
+		
+		public function isFiring():Boolean
+		{
+			if (_curAnim.name == "shoot_short"){
+				if(finished)
+					return false;
+				else
+					return true;
+			} else {
+				return false;
+			}
+		}
 		
 		override public function update():void
 		{	
 			super.update();
 			
 			acceleration.x = 0;
-			if (FlxG.keys.LEFT){
+			
+			var right:Boolean = (FlxG.keys.RIGHT || FlxG.keys.D);
+			var left:Boolean = (FlxG.keys.LEFT || FlxG.keys.A);
+			
+			if (left){
 				acceleration.x = -maxVelocity.x * X_ACCEL_SCALAR;
 				facing = LEFT;
 			}
-			if (FlxG.keys.RIGHT){
+			if (right){
 				acceleration.x = maxVelocity.x * X_ACCEL_SCALAR;
 				facing = RIGHT;
 			}
-			if (FlxG.keys.SPACE && isTouching(FlxObject.FLOOR))
+			if (FlxG.keys.UP && isTouching(FlxObject.FLOOR))
 			{
 				velocity.y = -maxVelocity.y * Y_ACCEL_SCALAR;
 				FlxG.play(Mp3Jump);
+				play("jump");
 			}
-			if(FlxG.keys.justPressed("S")){
+			if(FlxG.keys.justPressed("SPACE")){
 				FlxG.play(Mp3Laser, 0.2);
+				play("shoot_short");
+				
+				var sprite:FlxSprite = (FlxG.state as PlayState).playerBullets.recycle() as FlxSprite;
+				sprite.reset(x + width/2 - sprite.width/2, y + height/2);
+				sprite.color = 0x990000;
+				if(facing == RIGHT){
+					sprite.velocity.x = 200;
+				}
+				else{
+					sprite.velocity.x = -200;
+				}
 			}
 			
 			if (isTouching(FlxObject.FLOOR))
 			{
-				if (FlxG.keys.justPressed("S")){
-					var sprite:FlxSprite = (FlxG.state as PlayState).playerBullets.recycle() as FlxSprite;
-					sprite.reset(x + width/2 - sprite.width/2, y + height/2);
-					sprite.color = 0x990000;
-					if(facing == RIGHT){
-						sprite.velocity.x = 200;
-					}
-					else{
-						sprite.velocity.x = -200;
-					}
-				}
-				
-				if(FlxG.keys.S){
-					play("shoot_short");
-				}
-				else if (!FlxG.keys.LEFT && !FlxG.keys.RIGHT &&!FlxG.keys.S)
+				if (!FlxG.keys.LEFT && !FlxG.keys.RIGHT && !isFiring())
 				{
 					play("idle");
 				}
-				else
+				else if(!isFiring())
 				{
 					play("walk");
 				}
 			}
-			else
+			else if (!isFiring())
 			{
-				if (FlxG.keys.justPressed("S")){
-					var bullet:FlxSprite = (FlxG.state as PlayState).playerBullets.recycle() as FlxSprite;
-					bullet.reset(x + width/2 - bullet.width/2, y + height/2);
-					bullet.color = 0x990000;
-					if(facing == RIGHT){
-						bullet.velocity.x = 200;
-					}
-					else{
-						bullet.velocity.x = -200;
-					}
-				}
-				
-				if (FlxG.keys.S){
-					play("shoot_short");
-				}
-				else{
-					play("jump");
-				}
+				play("jump");
 			}
 		}
 	}
