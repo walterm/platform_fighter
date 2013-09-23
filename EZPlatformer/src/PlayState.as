@@ -6,6 +6,8 @@ package
 	import org.flixel.FlxObject;
 	import org.flixel.FlxState;
 	import org.flixel.FlxTilemap;
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxSprite;
 	
 	public class PlayState extends FlxState
 	{
@@ -13,6 +15,7 @@ package
 		public var bg2:FlxTilemap;
 		public var player:Player;
 		public var chiptune:Class;
+		public var playerBullets:FlxGroup;
 		
 		override public function create():void
 		{
@@ -31,24 +34,26 @@ package
 			[Embed(source = 'utils/chiptune.mp3')]
 			var chiptune:Class;
 			
+			//Make the bullets array which can render max 8 bullets on screen at once
+			var i:int;
+			var numPlayerBullets:uint = 8;
+			playerBullets = new FlxGroup(numPlayerBullets);//Initializing the array is very important and easy to forget!
+			var bullet:FlxSprite;
+			for(i = 0; i < numPlayerBullets; i++)			//Create 8 bullets for the player to recycle
+			{
+				bullet = new FlxSprite(-100,-100);	//Instantiate a new sprite offscreen
+				bullet.makeGraphic(8,2);			//Create a 2x8 white box
+				bullet.exists = false;
+				playerBullets.add(bullet);			//Add it to the group of player bullets
+			}
+			add(playerBullets);
+			
 			FlxG.playMusic(chiptune, .5);
 			
 			level = new FlxTilemap();
 			level.loadMap(new map_bg,tiles_bg, 0, 0, FlxTilemap.AUTO);
 			add(level);
-			
-			player = new Player();
-			
-			
-			//SETTING ANIMATIONS
-			player.addAnimation("idle" /*name of animation*/, [0] /*used frames*/);
-			player.addAnimation("walk", [0, 1, 2, 1], 5 /*frames per second*/);
-			player.addAnimation("jump", [3]);
-			player.maxVelocity.x = 80;
-			player.maxVelocity.y = 200;
-			player.acceleration.y = 200;
-			player.drag.x = player.maxVelocity.x * 4;
-			
+
 			player = new Player();
 			add(player);
 		}
