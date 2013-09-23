@@ -17,7 +17,10 @@ package
 		[Embed(source='res/laser.mp3')]
 		public static var Mp3Laser:Class;
 		
-		public static var Lasers:Array;
+		//Get Hurt from http://www.sinisterdesign.net/Downloads/Assemblee%201%20-%20Hurt%202.wav
+		[Embed(source='res/hurt.mp3')]
+		public static var Hurt:Class;
+		
 		// PLayer configuration constants
 		private static var DRAG_FACTOR:int = 4;
 		private static var GRAVITY_ACCEL:int = 200;
@@ -26,8 +29,7 @@ package
 		private static var X_ACCEL_SCALAR:int = 4;
 		private static var Y_ACCEL_SCALAR:Number = 0.5;
 		private static var MAX_HEALTH:Number = 100;
-		
-		public var laser:LaserProjectile;
+		private static var KNOCKBACK:Number = 5;
 		
 		public function Player()
 		{
@@ -53,9 +55,15 @@ package
 			play("idle");
 		}
 		
-		public function hit(damage:int):void
+		public function hit(enemy:Enemy):void
 		{
-			health -= damage;
+			health -= enemy.damage;
+			if (x > enemy.x)
+				x += KNOCKBACK;	
+			else
+				x -= KNOCKBACK;
+			//TODO play a better more robotic sound here
+			FlxG.play(Hurt, 1);
 		}
 		
 		public function isFiring():Boolean

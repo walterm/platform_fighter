@@ -9,12 +9,18 @@ package
 		[Embed(source='res/enemy.png')]
 		public static var ImgEnemy:Class;
 		
+		//Get Hurt from http://www.sinisterdesign.net/Downloads/Assemblee%201%20-%20Hurt%202.wav
+		[Embed(source='res/hurt.mp3')]
+		public static var Hurt:Class;
+		
 		//Enemy configuration
 		private static var MAX_HEALTH:Number = 100;
 		private static var X_ACCEL_SCALAR:int = 200;
 		private static var MAX_X_VEL:int = 20;
 		private static var MAX_Y_VEL:int = 200;
 		private static var GRAVITY_ACCEL:int = 200;
+		
+		public var damage:int;
 		private var counter:int;
 		
 		public function randomRange():Number{
@@ -39,6 +45,15 @@ package
 			acceleration.x = X_ACCEL_SCALAR;
 			acceleration.y = GRAVITY_ACCEL;
 			this.counter = 0;
+			
+			//Setting damage
+			damage = 10
+		}
+		
+		public function hit(damage:int):void
+		{
+			health -= damage;
+			FlxG.play(Hurt, 1);
 		}
 		
 		override public function update():void

@@ -11,6 +11,8 @@ package
 		public var chiptune:Class;
 		public var playerBullets:FlxGroup;
 		
+		public static var PLAYER_DAMAGE:int = 5;
+		
 		override public function create():void
 		{
 			FlxG.bgColor = 0xffaaaaaa;
@@ -63,7 +65,20 @@ package
 			FlxG.play(chiptune);
 			FlxG.collide(level, player);
 			FlxG.collide(level, enemy);
+			FlxG.overlap(enemy, playerBullets, hitEnemy);
+			FlxG.overlap(player, enemy, hitPlayer);
 			super.update();
+		}
+		
+		public function hitEnemy(enemy:Enemy, bullet:FlxSprite):void
+		{
+			enemy.hit(PLAYER_DAMAGE);
+			bullet.kill();
+		}
+		
+		public function hitPlayer(player:Player, enemy:Enemy):void
+		{
+			player.hit(enemy);
 		}
 		
 		public function endGame():void
