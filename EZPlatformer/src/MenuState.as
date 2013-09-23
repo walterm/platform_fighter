@@ -10,6 +10,8 @@ package
 		
 		override public function create():void
 		{
+			FlxG.bgColor = 0xffaaaaaa;
+			
 			add(new FlxText(0,0,100,"Main Menu!")); //adds a 100px wide text field at position 0,0 (upper left)
 			var playButton:FlxButton = new FlxButton(FlxG.width/2, FlxG.height/5, "Play", playButtonCallback);
 			add (playButton);

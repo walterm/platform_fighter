@@ -56,10 +56,6 @@ package
 		public function hit(damage:int):void
 		{
 			health -= damage;
-			if (health <= 0){
-				// end the game
-				// TODO
-			}
 		}
 		
 		public function isFiring():Boolean
@@ -126,6 +122,11 @@ package
 			else if (!isFiring())
 			{
 				play("jump");
+			}
+			
+			// check to see if game is over
+			if (health <= 0 || y > FlxG.height){
+				(FlxG.state as PlayState).endGame();
 			}
 		}
 	}

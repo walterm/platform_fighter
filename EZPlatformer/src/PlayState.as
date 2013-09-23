@@ -57,6 +57,11 @@ package
 			FlxG.collide(level, player);
 			super.update();
 		}
+		
+		public function endGame():void
+		{
+			FlxG.switchState(new GameOverState);
+		}
 	}
 }
 
