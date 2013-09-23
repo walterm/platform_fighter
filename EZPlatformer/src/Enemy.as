@@ -54,12 +54,14 @@ package
 		{
 			health -= damage;
 			FlxG.play(Hurt, 1);
+			if(health <= 0){
+				this.exists = false;
+			}
 		}
 		
 		override public function update():void
 		{
 			super.update();
-			trace("Test");
 			if(isTouching(FlxObject.FLOOR)){
 				velocity.y = 0;
 				play("walk");
