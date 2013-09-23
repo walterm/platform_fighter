@@ -1,88 +1,74 @@
 package
 {
+	import Player;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
-	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxTilemap;
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxSprite;
 	
 	public class PlayState extends FlxState
 	{
 		public var level:FlxTilemap;
-		public var player:FlxSprite;
 		public var bg2:FlxTilemap;
-		
-		[Embed(source='res/jump.mp3')]
-		public static var Mp3Jump:Class;
-		[Embed(source='res/player.png')]
-		public static var ImgPlayer:Class;
+		public var player:Player;
+		public var chiptune:Class;
+		public var playerBullets:FlxGroup;
 		
 		override public function create():void
 		{
 			FlxG.bgColor = 0xffaaaaaa;
 			
-			/*                                 Use this to load your own platform type!
-			[Embed(source='data/tilemap_platform.png')]
-			private var img_bg:Class;
-			*/
+			//Get the tilemap from tile.png
+			[Embed(source='res/tiles.png')]
+			var tiles_bg:Class;
+			
 			
 			//Read from platform.txt and create level map
 			[Embed(source = 'utils/platforms.txt', mimeType = 'application/octet-stream')]
 			var map_bg:Class;
 			
+			//Get chiptune from http://www.newgrounds.com/audio/listen/528414 
+			[Embed(source = 'utils/chiptune.mp3')]
+			var chiptune:Class;
+			
+			//Make the bullets array which can render max 8 bullets on screen at once
+			var i:int;
+			var numPlayerBullets:uint = 8;
+			playerBullets = new FlxGroup(numPlayerBullets);//Initializing the array is very important and easy to forget!
+			var bullet:FlxSprite;
+			for(i = 0; i < numPlayerBullets; i++)			//Create 8 bullets for the player to recycle
+			{
+				bullet = new FlxSprite(-100,-100);	//Instantiate a new sprite offscreen
+				bullet.makeGraphic(8,2);			//Create a 2x8 white box
+				bullet.exists = false;
+				playerBullets.add(bullet);			//Add it to the group of player bullets
+			}
+			add(playerBullets);
+			
+			FlxG.playMusic(chiptune, .5);
+			
 			level = new FlxTilemap();
-			level.loadMap(new map_bg, FlxTilemap.ImgAuto, 0, 0, FlxTilemap.AUTO);
+			level.loadMap(new map_bg,tiles_bg, 0, 0, FlxTilemap.AUTO);
 			add(level);
-			
-			
-			//Create player (a red box)
-			player = new FlxSprite(FlxG.width / 2 - 5);
-			
-			//LOADING GRAPHIC
-			player.loadGraphic(ImgPlayer, true, true, 14, 15);
-			//SETTING ANIMATIONS
-			player.addAnimation("idle" /*name of animation*/, [0] /*used frames*/);
-			player.addAnimation("walk", [0, 1, 2, 1], 5 /*frames per second*/);
-			player.addAnimation("jump", [3]);
-			
-			player.maxVelocity.x = 80;
-			player.maxVelocity.y = 200;
-			player.acceleration.y = 200;
-			player.drag.x = player.maxVelocity.x * 4;
+
+			player = new Player();
 			add(player);
 		}
 		
 		override public function update():void
-		{
-			player.acceleration.x = 0;
-			if (FlxG.keys.LEFT)
-				player.acceleration.x = -player.maxVelocity.x * 4;
-			if (FlxG.keys.RIGHT)
-				player.acceleration.x = player.maxVelocity.x * 4;
-			if (FlxG.keys.SPACE && player.isTouching(FlxObject.FLOOR))
-			{
-				player.velocity.y = -player.maxVelocity.y / 2;
-				FlxG.play(Mp3Jump, 0.5);
-			}
-			if (player.isTouching(FlxObject.FLOOR))
-			{
-				if (!FlxG.keys.LEFT && !FlxG.keys.RIGHT) //NOT MOVING
-				{
-					player.play("idle");
-				}
-				else
-				{
-					player.play("walk");
-				}
-			}
-			else //IN AIR
-			{
-				player.play("jump");
-			}
-			
-			super.update();
-			
+		{	
+			FlxG.play(chiptune);
 			FlxG.collide(level, player);
+			super.update();
 		}
 	}
 }
+
+
+
+
+
+
