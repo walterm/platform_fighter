@@ -1,13 +1,6 @@
 package
 {
-	import Player;
-	
-	import org.flixel.FlxG;
-	import org.flixel.FlxObject;
-	import org.flixel.FlxState;
-	import org.flixel.FlxTilemap;
-	import org.flixel.FlxGroup;
-	import org.flixel.FlxSprite;
+	import org.flixel.*;
 	
 	public class PlayState extends FlxState
 	{
