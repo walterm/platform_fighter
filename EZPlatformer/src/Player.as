@@ -39,20 +39,29 @@ package
 			facing = RIGHT;
 		}
 		
-//		public function hit(Projectile projectile){
-//			health -= projectile.power;
-//		}
+		public function hit(damage:int):void
+		{
+			health -= damage;
+			if (health <= 0){
+				// end the game
+				// TODO
+			}
+		}
 		
 		override public function update():void
 		{	
 			super.update();
 			
 			acceleration.x = 0;
-			if (FlxG.keys.LEFT){
+			
+			var right:Boolean = (FlxG.keys.RIGHT || FlxG.keys.D);
+			var left:Boolean = (FlxG.keys.LEFT || FlxG.keys.A);
+			
+			if (left){
 				acceleration.x = -maxVelocity.x * X_ACCEL_SCALAR;
 				facing = LEFT;
 			}
-			if (FlxG.keys.RIGHT){
+			if (right){
 				acceleration.x = maxVelocity.x * X_ACCEL_SCALAR;
 				facing = RIGHT;
 			}
@@ -60,6 +69,11 @@ package
 			{
 				velocity.y = -maxVelocity.y * Y_ACCEL_SCALAR;
 				FlxG.play(Mp3Jump, 0.5);
+			}
+			
+			if (FlxG.keys.C){
+				// shoot a projectile
+				// TODO
 			}
 			
 			if (isTouching(FlxObject.FLOOR))
