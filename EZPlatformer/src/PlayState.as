@@ -88,7 +88,7 @@ package
 			if(counter % 5 == 0){
 				var temp:Enemy = recycleEnemy();
 				enemies.add(temp);	
-				counter = 0;
+				
 			}
 		}
 		
