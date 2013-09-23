@@ -14,6 +14,7 @@ package
 		public var level:FlxTilemap;
 		public var bg2:FlxTilemap;
 		public var player:Player;
+		public var enemy:Enemy;
 		public var chiptune:Class;
 		public var playerBullets:FlxGroup;
 		
@@ -50,18 +51,25 @@ package
 			
 			FlxG.playMusic(chiptune, .5);
 			
+			//Rendering the level
 			level = new FlxTilemap();
 			level.loadMap(new map_bg,tiles_bg, 0, 0, FlxTilemap.AUTO);
 			add(level);
-
+	
+			//Adding in the player
 			player = new Player();
 			add(player);
+			
+			//Adding in a basic enemy
+			enemy = new Enemy();
+			add(enemy);
 		}
 		
 		override public function update():void
 		{	
 			FlxG.play(chiptune);
 			FlxG.collide(level, player);
+			FlxG.collide(level, enemy);
 			super.update();
 		}
 	}
