@@ -4,10 +4,12 @@ package
 	
 	import Player;
 	
+	import org.flixel.FlxButton;
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
+	import org.flixel.FlxText;
 	import org.flixel.FlxTilemap;
 	
 	public class PlayState extends FlxState
@@ -20,6 +22,8 @@ package
 		public var playerBullets:FlxGroup;
 		public var enemies:FlxGroup = new FlxGroup();
 		public var counter:int = 0;
+		public var paused:Boolean;
+		public var pauseGroup:FlxGroup;
 		
 		public static var PLAYER_DAMAGE:int = 5;
 		
@@ -68,16 +72,38 @@ package
 			//Adding in a basic enemy
 			enemies.add(new Enemy());
 			add(enemies);
+			
+			//Making the Pause menu
+			paused = false;
+			pauseGroup = new FlxGroup();
+			//will need to add menu items here
+			
+			
+			pauseGroup.add(new FlxText(FlxG.width/2, FlxG.height/5,300,"Paused")); //adds a 100px wide text field at position 0,0 (upper left)
+			var playButton:FlxButton = new FlxButton(FlxG.width/2, 2*FlxG.height/5, "New Game", newGameCallback);
+			pauseGroup.add (playButton);
+			var MenuButton:FlxButton = new FlxButton(FlxG.width/2, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
+			pauseGroup.add (MenuButton);
 		}
 		
 		override public function update():void
 		{	
+			if(FlxG.keys.justPressed("P"))
+				paused = !paused;
+			if(paused)
+				return pauseGroup.update();
 			FlxG.play(chiptune);
 			FlxG.collide(level, player);
 			FlxG.collide(level, enemies);
 			FlxG.overlap(enemies, playerBullets, hitEnemy);
 			FlxG.overlap(player, enemies, hitPlayer);
 			super.update();
+		}
+		override public function draw():void
+		{
+			if(paused)
+				return pauseGroup.draw();
+			super.draw();
 		}
 		
 		public function hitEnemy(enemy:Enemy, bullet:FlxSprite):void
@@ -114,7 +140,16 @@ package
 			
 			return enemy;
 		}
+		public function newGameCallback():void{
+			FlxG.switchState(new PlayState);
+		}
+		public function mainMenuCallback():void{
+			
+			FlxG.switchState(new MenuState);
+		}
+		
 	}
+	
 }
 
 
