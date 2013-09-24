@@ -76,13 +76,10 @@ package
 			//Making the Pause menu
 			paused = false;
 			pauseGroup = new FlxGroup();
-			//will need to add menu items here
-			
-			
-			pauseGroup.add(new FlxText(FlxG.width/2, FlxG.height/5,300,"Paused")); //adds a 100px wide text field at position 0,0 (upper left)
-			var playButton:FlxButton = new FlxButton(FlxG.width/2, 2*FlxG.height/5, "New Game", newGameCallback);
-			pauseGroup.add (playButton);
-			var MenuButton:FlxButton = new FlxButton(FlxG.width/2, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
+			pauseGroup.add(new FlxText(FlxG.width/2 , FlxG.height/5,300,"Paused")); //adds a 100px wide text field at position 0,0 (upper left)
+			var newGameButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 2*FlxG.height/5, "New Game", newGameCallback);
+			pauseGroup.add (newGameButton);
+			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
 			pauseGroup.add (MenuButton);
 		}
 		
