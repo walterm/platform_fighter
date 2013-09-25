@@ -15,7 +15,7 @@ package
 		public static var Hurt:Class;
 		
 		//Enemy configuration
-		private static var MAX_HEALTH:Number = 20;
+		private static var MAX_HEALTH:Number = 50;
 		private static var X_ACCEL_SCALAR:int = 200;
 		private static var MAX_X_VEL:int = 20;
 		private static var MAX_Y_VEL:int = 200;
