@@ -20,7 +20,7 @@ package
 		public var pauseGroup:FlxGroup;
 		public var HealthBar:FlxSprite;
 		
-		public static var PLAYER_DAMAGE:int = 20;
+		public static var PLAYER_DAMAGE:int = 10;
 		public static var TIME_LIMIT:int = 300;
 		
 		public var gameTimer:Number;
