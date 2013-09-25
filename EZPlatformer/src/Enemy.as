@@ -15,7 +15,7 @@ package
 		public static var Hurt:Class;
 		
 		//Enemy configuration
-		private static var MAX_HEALTH:Number = 80;
+		private static var MAX_HEALTH:Number = 40;
 		private static var X_ACCEL_SCALAR:int = 200;
 		private static var MAX_X_VEL:int = 20;
 		private static var MAX_Y_VEL:int = 200;
@@ -26,13 +26,14 @@ package
 		private var counter:int;
 		
 		public function randomRange():Number{
-			return Math.random() * 100 + 50;
+			return Math.random() *  (FlxG.width - 40) + 20;
 		}
+		
 		
 		public function Enemy()
 		{
 			//aspect ratio?
-			super(randomRange(), randomRange());
+			super(randomRange(), 20);
 			health = MAX_HEALTH;
 			
 			//Loading the sprite
