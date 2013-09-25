@@ -92,7 +92,7 @@ package
 			
 
 			//adding instructions 
-			add(new FlxText(0,0,FlxG.width,"Use arrow keys to move, up to jump, and space to shoot. Kill the enemies before they kill you!"))
+			add(new FlxText(0,30,FlxG.width,"Use arrow keys to move, up to jump, and space to shoot. Kill the enemies before they kill you!"))
 			//Adding in the Health Bar Frame
 			var HealthBarFrame:FlxSprite = new FlxSprite(FlxG.width/2 - 30,FlxG.height - 14, ImgHealthBarFrame);
 			HealthBarFrame.scrollFactor.x = HealthBarFrame.scrollFactor.y = 0;
