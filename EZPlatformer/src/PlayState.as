@@ -24,6 +24,7 @@ package
 		public var counter:int = 0;
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
+		public var HealthBar:FlxSprite;
 		
 		public static var PLAYER_DAMAGE:int = 5;
 		
@@ -31,10 +32,17 @@ package
 		{
 			FlxG.bgColor = 0xffaaaaaa;
 			
+			//Get the HealthBar Frame
+			[Embed(source='res/HealthBarFrame.png')]
+			var ImgHealthBarFrame:Class;
+			
+			//Get the HealthBar
+			[Embed(source='res/HealthBar.png')]
+			var ImgHealthBar:Class;
+			
 			//Get the tilemap from tile.png
 			[Embed(source='res/tiles.png')]
 			var tiles_bg:Class;
-			
 			
 			//Read from platform.txt and create level map
 			[Embed(source = 'utils/platforms.txt', mimeType = 'application/octet-stream')]
@@ -64,10 +72,6 @@ package
 			level = new FlxTilemap();
 			level.loadMap(new map_bg,tiles_bg, 0, 0, FlxTilemap.AUTO);
 			add(level);
-	
-			//Adding in the player
-			player = new Player();
-			add(player);
 			
 			//Adding in a basic enemy
 			enemies.add(new Enemy());
@@ -81,10 +85,26 @@ package
 			pauseGroup.add (newGameButton);
 			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
 			pauseGroup.add (MenuButton);
+			
+			//Adding in the Health Bar Frame
+			var HealthBarFrame:FlxSprite = new FlxSprite(FlxG.width/2 - 30,FlxG.height - 14, ImgHealthBarFrame);
+			HealthBarFrame.scrollFactor.x = HealthBarFrame.scrollFactor.y = 0;
+			add(HealthBarFrame);
+			
+			//Adding in the Health Bar
+			var HealthBar:FlxSprite = new FlxSprite(FlxG.width/2 - 25,FlxG.height - 11, ImgHealthBar);
+			HealthBar.scrollFactor.x = HealthBar.scrollFactor.y = 0;
+			HealthBar.origin.x = 0;
+			HealthBar.scale.x = 50;
+			add(HealthBar);
+			
+			//Adding in the player
+			player = new Player(HealthBar);
+			add(player);
 		}
 		
 		override public function update():void
-		{	
+		{
 			if(FlxG.keys.justPressed("P"))
 				paused = !paused;
 			if(paused)
@@ -137,11 +157,12 @@ package
 			
 			return enemy;
 		}
+		
 		public function newGameCallback():void{
 			FlxG.switchState(new PlayState);
 		}
+		
 		public function mainMenuCallback():void{
-			
 			FlxG.switchState(new MenuState);
 		}
 		
