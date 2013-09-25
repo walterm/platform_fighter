@@ -25,7 +25,7 @@ package
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
 		
-		public static var PLAYER_DAMAGE:int = 5;
+		public static var PLAYER_DAMAGE:int = 10;
 		
 		override public function create():void
 		{
