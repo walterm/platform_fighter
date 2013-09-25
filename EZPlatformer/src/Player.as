@@ -100,7 +100,7 @@ package
 				acceleration.x = maxVelocity.x * X_ACCEL_SCALAR;
 				facing = RIGHT;
 			}
-			if (FlxG.keys.UP && isTouching(FlxObject.FLOOR))
+			if ((FlxG.keys.UP|| FlxG.keys.W) && isTouching(FlxObject.FLOOR))
 			{
 				velocity.y = -maxVelocity.y * Y_ACCEL_SCALAR;
 				FlxG.play(Mp3Jump);
