@@ -122,7 +122,7 @@ package
 		public function spawn():void
 		{
 			this.counter++;
-			if(this.counter % 150 == 0){
+			if(this.counter % 100 == 0){
 				enemies.add(new Enemy());
 				this.counter = 0;
 			}
