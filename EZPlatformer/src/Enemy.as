@@ -15,7 +15,7 @@ package
 		public static var Hurt:Class;
 		
 		//Enemy configuration
-		private static var MAX_HEALTH:Number = 40;
+		private static var MAX_HEALTH:Number = 20;
 		private static var X_ACCEL_SCALAR:int = 200;
 		private static var MAX_X_VEL:int = 20;
 		private static var MAX_Y_VEL:int = 200;
@@ -26,7 +26,7 @@ package
 		private var counter:int;
 		
 		public function randomRange():Number{
-			return Math.random() *  (FlxG.width - 40) + 20;
+			return Math.random() *  (FlxG.width - 50) + 30;
 		}
 		
 		
@@ -73,7 +73,7 @@ package
 			health -= damage;
 			FlxG.play(Hurt, 1);
 			if(health <= 0){
-				this.exists = false;
+				this.kill();
 			}
 		}
 		

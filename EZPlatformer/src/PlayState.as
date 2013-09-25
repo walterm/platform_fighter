@@ -4,7 +4,14 @@ package
 	
 	import Player;
 	
-	import org.flixel.*;
+	import org.flixel.FlxButton;
+	import org.flixel.FlxG;
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxSprite;
+	import org.flixel.FlxState;
+	import org.flixel.FlxText;
+	import org.flixel.FlxTilemap;
+	import org.flixel.FlxU;
 	
 	public class PlayState extends FlxState
 	{
@@ -26,10 +33,13 @@ package
 		public var gameTimer:Number;
 		
 		public static var timerText:FlxText;
+		public static var scoreText:FlxText;
 		
 		override public function create():void
 		{
 			FlxG.bgColor = 0xffaaaaaa;
+			
+			scoreText = new FlxText(0,FlxG.width - 60, 300, "Score: 0");
 			
 			gameTimer = TIME_LIMIT;
 			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
@@ -79,6 +89,7 @@ package
 			add(enemies);
 			
 			add(timerText);
+			add(scoreText);
 			
 			//Making the Pause menu
 			paused = false;
@@ -122,8 +133,11 @@ package
 			if(gameTimer<=0)
 				endGame();
 			remove(timerText);
+			remove(scoreText);
 			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
+			scoreText = new FlxText(FlxG.width - 60,0,300, "Score: " + enemies.countDead().toString());
 			add(timerText);
+			add(scoreText);
 			
 			spawn();
 			super.update();
