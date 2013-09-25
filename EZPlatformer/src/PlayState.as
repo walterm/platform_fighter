@@ -90,10 +90,9 @@ package
 			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
 			pauseGroup.add (MenuButton);
 			
-<<<<<<< HEAD
+
 			//adding instructions 
 			add(new FlxText(0,0,FlxG.width,"Use arrow keys to move, up to jump, and space to shoot. Kill the enemies before they kill you!"))
-=======
 			//Adding in the Health Bar Frame
 			var HealthBarFrame:FlxSprite = new FlxSprite(FlxG.width/2 - 30,FlxG.height - 14, ImgHealthBarFrame);
 			HealthBarFrame.scrollFactor.x = HealthBarFrame.scrollFactor.y = 0;
@@ -109,7 +108,6 @@ package
 			//Adding in the player
 			player = new Player(HealthBar);
 			add(player);
->>>>>>> 7463f71a596f7599a3be0fcfdbc28e9bbf125bab
 		}
 		
 		override public function update():void
