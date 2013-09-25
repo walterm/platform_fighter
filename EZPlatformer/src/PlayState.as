@@ -4,13 +4,7 @@ package
 	
 	import Player;
 	
-	import org.flixel.FlxButton;
-	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxState;
-	import org.flixel.FlxText;
-	import org.flixel.FlxTilemap;
+	import org.flixel.*;
 	
 	public class PlayState extends FlxState
 	{
@@ -27,11 +21,18 @@ package
 		public var HealthBar:FlxSprite;
 		
 		public static var PLAYER_DAMAGE:int = 10;
+		public static var TIME_LIMIT:int = 300;
+		
+		public var gameTimer:Number;
+		
+		public static var timerText:FlxText;
 		
 		override public function create():void
 		{
 			FlxG.bgColor = 0xffaaaaaa;
 			
+			gameTimer = TIME_LIMIT;
+			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
 			//Get the HealthBar Frame
 			[Embed(source='res/HealthBarFrame.png')]
 			var ImgHealthBarFrame:Class;
@@ -77,6 +78,8 @@ package
 			enemies.add(new Enemy());
 			add(enemies);
 			
+			add(timerText);
+			
 			//Making the Pause menu
 			paused = false;
 			pauseGroup = new FlxGroup();
@@ -114,6 +117,13 @@ package
 			FlxG.collide(level, enemies);
 			FlxG.overlap(enemies, playerBullets, hitEnemy);
 			FlxG.overlap(player, enemies, hitPlayer);
+			
+			gameTimer -= FlxG.elapsed;
+			if(gameTimer<=0)
+				endGame();
+			remove(timerText);
+			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
+			add(timerText);
 			
 			spawn();
 			super.update();

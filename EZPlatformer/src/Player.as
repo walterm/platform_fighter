@@ -29,7 +29,7 @@ package
 		private static var X_ACCEL_SCALAR:int = 4;
 		private static var Y_ACCEL_SCALAR:Number = 0.5;
 		private static var MAX_HEALTH:Number = 100;
-		private static var KNOCKBACK:Number = 5;
+		private static var KNOCKBACK:Number = 10;
 		private static var HealthBar:FlxSprite;
 		
 		public function Player(HBar: FlxSprite)
