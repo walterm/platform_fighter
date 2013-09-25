@@ -94,8 +94,20 @@ package
 			FlxG.collide(level, enemies);
 			FlxG.overlap(enemies, playerBullets, hitEnemy);
 			FlxG.overlap(player, enemies, hitPlayer);
+			
+			spawn();
 			super.update();
 		}
+		
+		public function spawn():void
+		{
+			this.counter++;
+			if(this.counter % 150 == 0){
+				enemies.add(new Enemy());
+				this.counter = 0;
+			}
+		}
+		
 		override public function draw():void
 		{
 			if(paused)
@@ -107,12 +119,6 @@ package
 		{
 			enemy.hit(PLAYER_DAMAGE);
 			bullet.kill();
-			counter = counter + 1;
-			if(counter % 5 == 0){
-				var temp:Enemy = recycleEnemy();
-				enemies.add(temp);	
-				
-			}
 		}
 		
 		public function hitPlayer(player:Player, enemy:Enemy):void
@@ -137,6 +143,7 @@ package
 			
 			return enemy;
 		}
+		
 		public function newGameCallback():void{
 			FlxG.switchState(new PlayState);
 		}

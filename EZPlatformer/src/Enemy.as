@@ -67,7 +67,7 @@ package
 				play("walk");
 				
 				this.counter+= 1;
-				if(this.counter == 100){
+				if(this.counter % 100 == 0){
 					if(facing == LEFT){
 						facing = RIGHT;
 						acceleration.x = maxVelocity.x * X_ACCEL_SCALAR;
