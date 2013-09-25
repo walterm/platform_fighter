@@ -1,6 +1,5 @@
 package
 {
-	import LaserProjectile;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
@@ -8,6 +7,7 @@ package
 	
 	public class Player extends FlxSprite
 	{
+		
 		[Embed(source='res/player.png')]
 		public static var ImgPlayer:Class;
 		
@@ -30,11 +30,14 @@ package
 		private static var Y_ACCEL_SCALAR:Number = 0.5;
 		private static var MAX_HEALTH:Number = 100;
 		private static var KNOCKBACK:Number = 5;
+		private static var HealthBar:FlxSprite;
 		
-		public function Player()
+		public function Player(HBar: FlxSprite)
 		{
 			super(FlxG.width / 2, FlxG.height/2-10);
 			health = MAX_HEALTH;
+			
+			HealthBar = HBar;
 			
 			// Loading image
 			loadGraphic(ImgPlayer, true, true, 14, 15);
@@ -64,6 +67,8 @@ package
 				x -= KNOCKBACK;
 			//TODO play a better more robotic sound here
 			FlxG.play(Hurt, 1);
+			
+			HealthBar.scale.x = health/2;
 		}
 		
 		public function isFiring():Boolean
