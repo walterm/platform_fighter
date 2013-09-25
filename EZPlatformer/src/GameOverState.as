@@ -8,7 +8,7 @@ package
 		{
 			FlxG.bgColor = 0xffaaaaaa;
 			
-			add(new FlxText(FlxG.width/2, FlxG.height/5,300,"GAME OVER")); //adds a 100px wide text field at position 0,0 (upper left)
+			add(new FlxText(FlxG.width/2, FlxG.height/5,300,"GAME OVER"));
 			var playButton:FlxButton = new FlxButton(FlxG.width/2 -45, 2*FlxG.height/5, "Replay", replayCallback);
 			add (playButton);
 			var creditButton:FlxButton = new FlxButton(FlxG.width/2 -45, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
