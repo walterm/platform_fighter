@@ -76,11 +76,15 @@ package
 			//Making the Pause menu
 			paused = false;
 			pauseGroup = new FlxGroup();
-			pauseGroup.add(new FlxText(FlxG.width/2 , FlxG.height/5,300,"Paused")); //adds a 100px wide text field at position 0,0 (upper left)
+			pauseGroup.add(new FlxText(FlxG.width/2 , 0,300,"Paused")); 
+			pauseGroup.add(new FlxText(FlxG.width/2 , FlxG.height/5, 300,"Press P to unpause"))
 			var newGameButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 2*FlxG.height/5, "New Game", newGameCallback);
 			pauseGroup.add (newGameButton);
 			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
 			pauseGroup.add (MenuButton);
+			
+			//adding instructions 
+			add(new FlxText(0,0,FlxG.width,"Use arrow keys to move, up to jump, and space to shoot. Kill the enemies before they kill you!"))
 		}
 		
 		override public function update():void
