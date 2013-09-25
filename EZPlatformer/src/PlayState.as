@@ -4,13 +4,7 @@ package
 	
 	import Player;
 	
-	import org.flixel.FlxButton;
-	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxState;
-	import org.flixel.FlxText;
-	import org.flixel.FlxTilemap;
+	import org.flixel.*;
 	
 	public class PlayState extends FlxState
 	{
@@ -24,17 +18,32 @@ package
 		public var counter:int = 0;
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
+		public var HealthBar:FlxSprite;
 		
-		public static var PLAYER_DAMAGE:int = 5;
+		public static var PLAYER_DAMAGE:int = 10;
+		public static var TIME_LIMIT:int = 300;
+		
+		public var gameTimer:Number;
+		
+		public static var timerText:FlxText;
 		
 		override public function create():void
 		{
 			FlxG.bgColor = 0xffaaaaaa;
 			
+			gameTimer = TIME_LIMIT;
+			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
+			//Get the HealthBar Frame
+			[Embed(source='res/HealthBarFrame.png')]
+			var ImgHealthBarFrame:Class;
+			
+			//Get the HealthBar
+			[Embed(source='res/HealthBar.png')]
+			var ImgHealthBar:Class;
+			
 			//Get the tilemap from tile.png
 			[Embed(source='res/tiles.png')]
 			var tiles_bg:Class;
-			
 			
 			//Read from platform.txt and create level map
 			[Embed(source = 'utils/platforms.txt', mimeType = 'application/octet-stream')]
@@ -64,14 +73,12 @@ package
 			level = new FlxTilemap();
 			level.loadMap(new map_bg,tiles_bg, 0, 0, FlxTilemap.AUTO);
 			add(level);
-	
-			//Adding in the player
-			player = new Player();
-			add(player);
 			
 			//Adding in a basic enemy
 			enemies.add(new Enemy());
 			add(enemies);
+			
+			add(timerText);
 			
 			//Making the Pause menu
 			paused = false;
@@ -83,12 +90,30 @@ package
 			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
 			pauseGroup.add (MenuButton);
 			
+<<<<<<< HEAD
 			//adding instructions 
 			add(new FlxText(0,0,FlxG.width,"Use arrow keys to move, up to jump, and space to shoot. Kill the enemies before they kill you!"))
+=======
+			//Adding in the Health Bar Frame
+			var HealthBarFrame:FlxSprite = new FlxSprite(FlxG.width/2 - 30,FlxG.height - 14, ImgHealthBarFrame);
+			HealthBarFrame.scrollFactor.x = HealthBarFrame.scrollFactor.y = 0;
+			add(HealthBarFrame);
+			
+			//Adding in the Health Bar
+			var HealthBar:FlxSprite = new FlxSprite(FlxG.width/2 - 25,FlxG.height - 11, ImgHealthBar);
+			HealthBar.scrollFactor.x = HealthBar.scrollFactor.y = 0;
+			HealthBar.origin.x = 0;
+			HealthBar.scale.x = 50;
+			add(HealthBar);
+			
+			//Adding in the player
+			player = new Player(HealthBar);
+			add(player);
+>>>>>>> 7463f71a596f7599a3be0fcfdbc28e9bbf125bab
 		}
 		
 		override public function update():void
-		{	
+		{
 			if(FlxG.keys.justPressed("P"))
 				paused = !paused;
 			if(paused)
@@ -98,8 +123,27 @@ package
 			FlxG.collide(level, enemies);
 			FlxG.overlap(enemies, playerBullets, hitEnemy);
 			FlxG.overlap(player, enemies, hitPlayer);
+			
+			gameTimer -= FlxG.elapsed;
+			if(gameTimer<=0)
+				endGame();
+			remove(timerText);
+			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
+			add(timerText);
+			
+			spawn();
 			super.update();
 		}
+		
+		public function spawn():void
+		{
+			this.counter++;
+			if(this.counter % 100 == 0){
+				enemies.add(new Enemy());
+				this.counter = 0;
+			}
+		}
+		
 		override public function draw():void
 		{
 			if(paused)
@@ -111,12 +155,6 @@ package
 		{
 			enemy.hit(PLAYER_DAMAGE);
 			bullet.kill();
-			counter = counter + 1;
-			if(counter % 5 == 0){
-				var temp:Enemy = recycleEnemy();
-				enemies.add(temp);	
-				
-			}
 		}
 		
 		public function hitPlayer(player:Player, enemy:Enemy):void
@@ -141,11 +179,12 @@ package
 			
 			return enemy;
 		}
+		
 		public function newGameCallback():void{
 			FlxG.switchState(new PlayState);
 		}
+		
 		public function mainMenuCallback():void{
-			
 			FlxG.switchState(new MenuState);
 		}
 		

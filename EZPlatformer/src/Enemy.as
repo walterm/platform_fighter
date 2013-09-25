@@ -2,6 +2,7 @@ package
 {
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	
 	public class Enemy extends FlxSprite
@@ -14,11 +15,12 @@ package
 		public static var Hurt:Class;
 		
 		//Enemy configuration
-		private static var MAX_HEALTH:Number = 100;
+		private static var MAX_HEALTH:Number = 80;
 		private static var X_ACCEL_SCALAR:int = 200;
 		private static var MAX_X_VEL:int = 20;
 		private static var MAX_Y_VEL:int = 200;
 		private static var GRAVITY_ACCEL:int = 200;
+		private var hasHitFloor:Boolean = false;
 		
 		public var damage:int;
 		private var counter:int;
@@ -40,11 +42,26 @@ package
 			addAnimation("walk",[0,1,2,1], 5);
 			addAnimation("idle",[0]);
 			
-			maxVelocity.x = MAX_X_VEL;
+			maxVelocity.x = -MAX_X_VEL;
 			maxVelocity.y = MAX_Y_VEL;
 			acceleration.x = X_ACCEL_SCALAR;
 			acceleration.y = GRAVITY_ACCEL;
 			this.counter = 0;
+			
+			var num:int = Math.random() * 4 + 1;
+			if(num < 3){
+				maxVelocity.x = -MAX_X_VEL;
+				maxVelocity.y = MAX_Y_VEL;
+				acceleration.x = X_ACCEL_SCALAR;
+				acceleration.y = GRAVITY_ACCEL;
+				facing = LEFT;
+			} else{
+				maxVelocity.x = MAX_X_VEL;
+				maxVelocity.y = MAX_Y_VEL;
+				acceleration.x = X_ACCEL_SCALAR;
+				acceleration.y = GRAVITY_ACCEL;
+				facing = RIGHT;
+			}
 			
 			//Setting damage
 			damage = 10
@@ -65,17 +82,20 @@ package
 			if(isTouching(FlxObject.FLOOR)){
 				velocity.y = 0;
 				play("walk");
-				
-				this.counter+= 1;
-				if(this.counter == 100){
+				this.hasHitFloor = true;
+			}else{
+				if(this.hasHitFloor){
+					var last:FlxPoint = this.last;
 					if(facing == LEFT){
+						this.reset(last.x + 10, last.y);
 						facing = RIGHT;
 						acceleration.x = maxVelocity.x * X_ACCEL_SCALAR;
-					} else {
+					}
+					else{
 						facing = LEFT;
+						this.reset(last.x - 10, last.y);
 						acceleration.x = -maxVelocity.x * X_ACCEL_SCALAR;
 					}
-					this.counter = 0;
 				}
 			}
 			
