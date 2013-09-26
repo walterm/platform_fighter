@@ -28,16 +28,14 @@ package
 		private static var MAX_Y_VEL:int = 200;
 		private static var X_ACCEL_SCALAR:int = 4;
 		private static var Y_ACCEL_SCALAR:Number = 0.5;
-		private static var MAX_HEALTH:Number = 100;
 		private static var KNOCKBACK:Number = 10;
-		private static var HealthBar:FlxSprite;
+//		private static var HealthBar:FlxSprite;
 		
-		public function Player(HBar: FlxSprite)
+		public function Player()
 		{
 			super(FlxG.width / 2, FlxG.height/2-10);
-			health = MAX_HEALTH;
 			
-			HealthBar = HBar;
+//			HealthBar = HBar;
 			
 			// Loading image
 			loadGraphic(ImgPlayer, true, true, 14, 15);
@@ -60,7 +58,6 @@ package
 		
 		public function hit(enemy:Enemy):void
 		{
-			health -= enemy.damage;
 			if (x > enemy.x)
 				x += KNOCKBACK;	
 			else
@@ -68,7 +65,7 @@ package
 			//TODO play a better more robotic sound here
 			FlxG.play(Hurt, 1);
 			
-			HealthBar.scale.x = health/2;
+//			HealthBar.scale.x = health/2;
 		}
 		
 		public function isFiring():Boolean
@@ -138,7 +135,7 @@ package
 			}
 			
 			// check to see if game is over
-			if (health <= 0 || y > FlxG.height){
+			if (y > FlxG.height){
 				(FlxG.state as PlayState).endGame();
 			}
 		}

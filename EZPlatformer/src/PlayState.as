@@ -25,12 +25,14 @@ package
 		public var counter:int = 0;
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
-		public var HealthBar:FlxSprite;
+//		public var HealthBar:FlxSprite;
 		
 		public static var PLAYER_DAMAGE:int = 10;
-		public static var TIME_LIMIT:int = 300;
+		public static var INITIAL_TIME:int = 60;
+		public static var ENEMY_TIME_REWARD = 0.5;
 		
 		public var gameTimer:Number;
+		public var elapsedTime:Number;
 		
 		public static var timerText:FlxText;
 		public static var scoreText:FlxText;
@@ -41,7 +43,8 @@ package
 			
 			scoreText = new FlxText(0,FlxG.width - 60, 300, "Score: 0");
 			
-			gameTimer = TIME_LIMIT;
+			gameTimer = INITIAL_TIME;
+			elapsedTime = 0;
 			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
 			//Get the HealthBar Frame
 			[Embed(source='res/HealthBarFrame.png')]
@@ -105,19 +108,19 @@ package
 			//adding instructions 
 			add(new FlxText(0,30,FlxG.width,"Use arrow keys to move, up to jump, and space to shoot. Kill the enemies before they kill you!"))
 			//Adding in the Health Bar Frame
-			var HealthBarFrame:FlxSprite = new FlxSprite(FlxG.width/2 - 30,FlxG.height - 14, ImgHealthBarFrame);
-			HealthBarFrame.scrollFactor.x = HealthBarFrame.scrollFactor.y = 0;
-			add(HealthBarFrame);
+//			var HealthBarFrame:FlxSprite = new FlxSprite(FlxG.width/2 - 30,FlxG.height - 14, ImgHealthBarFrame);
+//			HealthBarFrame.scrollFactor.x = HealthBarFrame.scrollFactor.y = 0;
+//			add(HealthBarFrame);
 			
 			//Adding in the Health Bar
-			var HealthBar:FlxSprite = new FlxSprite(FlxG.width/2 - 25,FlxG.height - 11, ImgHealthBar);
-			HealthBar.scrollFactor.x = HealthBar.scrollFactor.y = 0;
-			HealthBar.origin.x = 0;
-			HealthBar.scale.x = 50;
-			add(HealthBar);
+//			var HealthBar:FlxSprite = new FlxSprite(FlxG.width/2 - 25,FlxG.height - 11, ImgHealthBar);
+//			HealthBar.scrollFactor.x = HealthBar.scrollFactor.y = 0;
+//			HealthBar.origin.x = 0;
+//			HealthBar.scale.x = 50;
+//			add(HealthBar);
 			
 			//Adding in the player
-			player = new Player(HealthBar);
+			player = new Player();
 			add(player);
 		}
 		
@@ -134,6 +137,7 @@ package
 			FlxG.overlap(player, enemies, hitPlayer);
 			
 			gameTimer -= FlxG.elapsed;
+			elapsedTime += FlxG.elapsed;
 			if(gameTimer<=0)
 				endGame();
 			remove(timerText);
@@ -165,12 +169,15 @@ package
 		
 		public function hitEnemy(enemy:Enemy, bullet:FlxSprite):void
 		{
-			enemy.hit(PLAYER_DAMAGE);
+			if(enemy.hit(PLAYER_DAMAGE)){
+				gameTimer += ENEMY_TIME_REWARD;
+			}
 			bullet.kill();
 		}
 		
 		public function hitPlayer(player:Player, enemy:Enemy):void
 		{
+			gameTimer -= enemy.damage;
 			player.hit(enemy);
 		}
 		

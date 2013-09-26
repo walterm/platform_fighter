@@ -65,16 +65,18 @@ package
 			}
 			
 			//Setting damage
-			damage = 10
+			damage = 1;
 		}
 		
-		public function hit(damage:int):void
+		public function hit(damage:int):Boolean
 		{
 			health -= damage;
 			FlxG.play(Hurt, 1);
 			if(health <= 0){
 				this.kill();
+				return true;
 			}
+			return false;
 		}
 		
 		override public function update():void
