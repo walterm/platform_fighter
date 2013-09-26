@@ -90,13 +90,13 @@ package
 				if(this.hasHitFloor){
 					var last:FlxPoint = this.last;
 					if(facing == LEFT){
-						this.reset(last.x + 10, last.y);
+						//this.reset(last.x + 10, last.y);
 						facing = RIGHT;
 						acceleration.x = maxVelocity.x * X_ACCEL_SCALAR;
 					}
 					else{
 						facing = LEFT;
-						this.reset(last.x - 10, last.y);
+						//this.reset(last.x - 10, last.y);
 						acceleration.x = -maxVelocity.x * X_ACCEL_SCALAR;
 					}
 				}
