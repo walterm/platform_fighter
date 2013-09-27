@@ -37,15 +37,21 @@ package
 		public static var timerText:FlxText;
 		public static var scoreText:FlxText;
 		
+		public static var endText:FlxText;
+		
 		override public function create():void
 		{
 			FlxG.bgColor = 0xffaaaaaa;
 			
 			scoreText = new FlxText(0,FlxG.width - 60, 300, "Score: 0");
 			
+			endText = new FlxText(FlxG.width/2,2*FlxG.height/5, 300, "You killed 0 humans and lasted 0 seconds");
+			
 			gameTimer = INITIAL_TIME;
 			elapsedTime = 0;
 			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
+			
+			
 			//Get the HealthBar Frame
 			[Embed(source='res/HealthBarFrame.png')]
 			var ImgHealthBarFrame:Class;
@@ -97,11 +103,11 @@ package
 			//Making the Pause menu
 			paused = false;
 			pauseGroup = new FlxGroup();
-			pauseGroup.add(new FlxText(FlxG.width/2 , 0,300,"Paused")); 
-			pauseGroup.add(new FlxText(FlxG.width/2 , FlxG.height/5, 300,"Press P to unpause"))
-			var newGameButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 2*FlxG.height/5, "New Game", newGameCallback);
+			pauseGroup.add(new FlxText(FlxG.width/2 - 25 , FlxG.height/5,300,"Paused")); 
+			pauseGroup.add(new FlxText(FlxG.width/2 -52, 2*FlxG.height/5, 300,"Press P to unpause"))
+			var newGameButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/5, "New Game", newGameCallback);
 			pauseGroup.add (newGameButton);
-			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/5, "Main Menu", mainMenuCallback);
+			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 4*FlxG.height/5, "Main Menu", mainMenuCallback);
 			pauseGroup.add (MenuButton);
 			
 
@@ -139,14 +145,14 @@ package
 			gameTimer -= FlxG.elapsed;
 			elapsedTime += FlxG.elapsed;
 			if(gameTimer<=0)
-				endGame();
+				endGame();		
 			remove(timerText);
 			remove(scoreText);
 			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
 			scoreText = new FlxText(FlxG.width - 60,0,300, "Score: " + enemies.countDead().toString());
 			add(timerText);
 			add(scoreText);
-			
+			endText = new FlxText(FlxG.width/2 - 100 ,2*FlxG.height/5, 300, ("You killed "+ enemies.countDead().toString()+ " humans and lasted " +  FlxU.ceil(elapsedTime).toString() + " seconds"));
 			spawn();
 			super.update();
 		}
