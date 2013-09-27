@@ -177,8 +177,8 @@ package
 		
 		public function hitPlayer(player:Player, enemy:Enemy):void
 		{
-			gameTimer -= enemy.damage;
-			player.hit(enemy);
+			if(player.hit(enemy))
+				gameTimer -= enemy.damage;
 		}
 		
 		public function endGame():void

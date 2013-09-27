@@ -28,8 +28,14 @@ package
 		private static var MAX_Y_VEL:int = 200;
 		private static var X_ACCEL_SCALAR:int = 4;
 		private static var Y_ACCEL_SCALAR:Number = 0.5;
-		private static var KNOCKBACK:Number = 10;
+		private static var KNOCKBACK_VEL:Number = 100;
+		private static var KNOCKBACK_DURATION:Number = .2;
+		private static var INVULNERABILITY_TIME:Number = 0.5;
 //		private static var HealthBar:FlxSprite;
+		
+		private var knockbackRight:Number; // 1 if right -1 if left
+		private var damageTime:Number;
+		private var invulnerable:Boolean;
 		
 		public function Player()
 		{
@@ -53,17 +59,30 @@ package
 			drag.x = maxVelocity.x * DRAG_FACTOR;
 			facing = RIGHT;
 			
+			damageTime = 0;
+			invulnerable = false;
+			
 			play("idle");
 		}
 		
-		public function hit(enemy:Enemy):void
+		public function hit(enemy:Enemy):Boolean
 		{
-			if (x > enemy.x)
-				x += KNOCKBACK;	
-			else
-				x -= KNOCKBACK;
-			//TODO play a better more robotic sound here
-			FlxG.play(Hurt, 1);
+			if (!invulnerable){
+				damageTime = 0;
+				invulnerable = true;
+				if (x > enemy.x){
+					knockbackRight = 1;
+//					acceleration.x += KNOCKBACK_VEL;
+				}
+				else{
+					knockbackRight = -1;
+//					acceleration.x -= KNOCKBACK_VEL;
+				}
+
+				FlxG.play(Hurt, 1);
+				return true;
+			}else
+				return false;
 			
 //			HealthBar.scale.x = health/2;
 		}
@@ -117,6 +136,18 @@ package
 					sprite.velocity.x = -200;
 				}
 			}
+			
+			if(invulnerable){
+				damageTime += FlxG.elapsed;
+				color = 0xff0000;
+				if (damageTime<KNOCKBACK_DURATION){
+					velocity.x = KNOCKBACK_VEL*knockbackRight;
+				}
+				if (damageTime>INVULNERABILITY_TIME){
+					invulnerable = false;
+				} 
+			} else 
+				color = 0xffffff;
 			
 			if (isTouching(FlxObject.FLOOR))
 			{

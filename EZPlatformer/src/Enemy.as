@@ -65,7 +65,7 @@ package
 			}
 			
 			//Setting damage
-			damage = 1;
+			damage = 5;
 		}
 		
 		public function hit(damage:int):Boolean
