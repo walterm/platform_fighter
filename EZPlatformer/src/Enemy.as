@@ -3,6 +3,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxSave;
 	import org.flixel.FlxSprite;
 	
 	public class Enemy extends FlxSprite
@@ -21,6 +22,8 @@ package
 		private static var MAX_Y_VEL:int = 200;
 		private static var GRAVITY_ACCEL:int = 200;
 		private var hasHitFloor:Boolean = false;
+		private var healthBar:FlxSprite;
+		private var frame:FlxSprite;
 		
 		public var damage:int;
 		private var counter:int;
@@ -66,6 +69,14 @@ package
 			
 			//Setting damage
 			damage = 5;
+			
+			//Setting up frame for the health bar
+			frame = new FlxSprite(this.x, this.y);
+			frame.makeGraphic(3,2,0x00000000);
+			
+			//Setting up HealthBar
+			healthBar = new FlxSprite(this.x,this.y);
+			healthBar.makeGraphic(1,2,0xffff0000);
 		}
 		
 		public function hit(damage:int):Boolean
@@ -78,10 +89,15 @@ package
 			}
 			return false;
 		}
-		
+				
 		override public function update():void
 		{
 			super.update();
+			healthBar.x = frame.x = this.x;
+			healthBar.y = frame.y = this.y - 10;
+			
+			frame.scale.x = 20;
+			healthBar.scale.x = (this.health / MAX_HEALTH) * 20;
 			if(isTouching(FlxObject.FLOOR)){
 				velocity.y = 0;
 				play("walk");
@@ -102,6 +118,13 @@ package
 				}
 			}
 			
+		}
+		
+		override public function draw():void
+		{
+			super.draw();
+			healthBar.draw();
+			frame.draw();
 		}
 	}
 }

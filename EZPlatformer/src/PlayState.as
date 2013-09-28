@@ -25,7 +25,7 @@ package
 		public var counter:int = 0;
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
-//		public var HealthBar:FlxSprite;
+		public var HealthBar:FlxSprite;
 		
 		public static var PLAYER_DAMAGE:int = 10;
 		public static var INITIAL_TIME:int = 60;
@@ -95,7 +95,8 @@ package
 			add(level);
 			
 			//Adding in a basic enemy
-			enemies.add(new Enemy());
+			var enemy:Enemy = new Enemy();			
+			enemies.add(enemy);
 			add(enemies);
 			
 			add(timerText);
@@ -115,17 +116,6 @@ package
 			//adding instructions 
 			instructionText = (new FlxText(0,30,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies."))
 			add (instructionText)
-			//Adding in the Health Bar Frame
-//			var HealthBarFrame:FlxSprite = new FlxSprite(FlxG.width/2 - 30,FlxG.height - 14, ImgHealthBarFrame);
-//			HealthBarFrame.scrollFactor.x = HealthBarFrame.scrollFactor.y = 0;
-//			add(HealthBarFrame);
-			
-			//Adding in the Health Bar
-//			var HealthBar:FlxSprite = new FlxSprite(FlxG.width/2 - 25,FlxG.height - 11, ImgHealthBar);
-//			HealthBar.scrollFactor.x = HealthBar.scrollFactor.y = 0;
-//			HealthBar.origin.x = 0;
-//			HealthBar.scale.x = 50;
-//			add(HealthBar);
 			
 			//Adding in the player
 			player = new Player();
@@ -207,6 +197,7 @@ package
 		
 		public function hitEnemy(enemy:Enemy, bullet:FlxSprite):void
 		{
+			
 			if(enemy.hit(PLAYER_DAMAGE)){
 				gameTimer += ENEMY_TIME_REWARD;
 			}
