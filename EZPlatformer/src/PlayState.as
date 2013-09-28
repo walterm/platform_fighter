@@ -29,7 +29,7 @@ package
 		
 		public static var PLAYER_DAMAGE:int = 10;
 		public static var INITIAL_TIME:int = 60;
-		public static var ENEMY_TIME_REWARD = 0.5;
+		public static var ENEMY_TIME_REWARD = 1;
 		
 		public var gameTimer:Number;
 		public var elapsedTime:Number;
