@@ -16,7 +16,8 @@ package
 		public static var Hurt:Class;
 		
 		//Enemy configuration
-		private static var MAX_HEALTH:Number = 20;
+		private static var MAX_HEALTH:Number = 30;
+		private static var SCALING:Number = 20;
 		private static var X_ACCEL_SCALAR:int = 200;
 		private static var MAX_X_VEL:int = 20;
 		private static var MAX_Y_VEL:int = 200;
@@ -72,7 +73,7 @@ package
 			
 			//Setting up frame for the health bar
 			frame = new FlxSprite(this.x, this.y);
-			frame.makeGraphic(3,2,0x00000000);
+			frame.makeGraphic(1,2,0xff000000);
 			
 			//Setting up HealthBar
 			healthBar = new FlxSprite(this.x,this.y);
@@ -96,8 +97,8 @@ package
 			healthBar.x = frame.x = this.x;
 			healthBar.y = frame.y = this.y - 10;
 			
-			frame.scale.x = 20;
-			healthBar.scale.x = (this.health / MAX_HEALTH) * 20;
+			frame.scale.x = SCALING;
+			healthBar.scale.x = (this.health / MAX_HEALTH) * SCALING;
 			if(isTouching(FlxObject.FLOOR)){
 				velocity.y = 0;
 				play("walk");
@@ -106,13 +107,11 @@ package
 				if(this.hasHitFloor){
 					var last:FlxPoint = this.last;
 					if(facing == LEFT){
-						//this.reset(last.x + 10, last.y);
 						facing = RIGHT;
 						acceleration.x = maxVelocity.x * X_ACCEL_SCALAR;
 					}
 					else{
 						facing = LEFT;
-						//this.reset(last.x - 10, last.y);
 						acceleration.x = -maxVelocity.x * X_ACCEL_SCALAR;
 					}
 				}
@@ -123,8 +122,9 @@ package
 		override public function draw():void
 		{
 			super.draw();
-			healthBar.draw();
 			frame.draw();
+			healthBar.draw();
+			
 		}
 	}
 }
