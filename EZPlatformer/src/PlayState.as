@@ -36,6 +36,7 @@ package
 		
 		public static var timerText:FlxText;
 		public static var scoreText:FlxText;
+		public  var instructionText:FlxText;
 		
 		public static var endText:FlxText;
 		
@@ -112,7 +113,8 @@ package
 			
 
 			//adding instructions 
-			add(new FlxText(0,30,FlxG.width,"Use arrow keys to move, up to jump, and space to shoot. Kill the enemies before they kill you!"))
+			instructionText = (new FlxText(0,30,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies."))
+			add (instructionText)
 			//Adding in the Health Bar Frame
 //			var HealthBarFrame:FlxSprite = new FlxSprite(FlxG.width/2 - 30,FlxG.height - 14, ImgHealthBarFrame);
 //			HealthBarFrame.scrollFactor.x = HealthBarFrame.scrollFactor.y = 0;
@@ -148,10 +150,40 @@ package
 				endGame();		
 			remove(timerText);
 			remove(scoreText);
+			remove (instructionText);
 			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
 			scoreText = new FlxText(FlxG.width - 60,0,300, "Score: " + enemies.countDead().toString());
+			if (elapsedTime < 5) {
+				instructionText = (new FlxText(0,30,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies."))
+			}
+			else if (elapsedTime <10){
+				instructionText = (new FlxText(0,30,FlxG.width,"If you fall off the platform or run out of time you die. When the humans touch you they shove you and take away some of your time... Those mean humans :( "))
+			}
+			else if (elapsedTime <15){
+				instructionText = (new FlxText(40,30,FlxG.width,"You can prolong your life by killing the humans"))
+			}
+			else if (elapsedTime <20){
+				instructionText = (new FlxText(0,30,FlxG.width,"If you need a break from all this intensity you can press P to pause"))
+			}
+			else if (elapsedTime <30) {
+				instructionText = (new FlxText(FlxG.width/2 -25,30 ,FlxG.width,"Good Luck!"))
+			}
+			else if (elapsedTime <40){
+				instructionText = (new FlxText(FlxG.width/4 -5,30,FlxG.width,"Are you still reading these messages?"))
+			}
+			else if (elapsedTime <60){
+				instructionText = (new FlxText(60,30,FlxG.width,"You really should be focusing more on surviving..."))
+			}
+			else if (elapsedTime <100){
+				instructionText = (new FlxText(10,30,FlxG.width,"Man you are pretty good at this, maybe you will live forever"))
+			}
+			else if (true){
+				instructionText = (new FlxText(25,30,FlxG.width,"I don't think I've seen any other robot survive this long"))
+			}
+				
 			add(timerText);
 			add(scoreText);
+			add (instructionText);
 			endText = new FlxText(FlxG.width/2 - 100 ,2*FlxG.height/5, 300, ("You killed "+ enemies.countDead().toString()+ " humans and lasted " +  FlxU.ceil(elapsedTime).toString() + " seconds"));
 			spawn();
 			super.update();
