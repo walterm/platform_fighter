@@ -200,7 +200,6 @@ package
 		
 		public function hitEnemy(enemy:Enemy, bullet:FlxSprite):void
 		{
-			
 			if(enemy.hit(PLAYER_DAMAGE)){
 				gameTimer += ENEMY_TIME_REWARD;
 			}

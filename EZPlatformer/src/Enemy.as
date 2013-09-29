@@ -17,7 +17,7 @@ package
 		
 		//Enemy configuration
 		private static var MAX_HEALTH:Number = 30;
-		private static var SCALING:Number = 20;
+		private static var SCALING:Number = 16;
 		private static var X_ACCEL_SCALAR:int = 200;
 		private static var MAX_X_VEL:int = 20;
 		private static var MAX_Y_VEL:int = 200;
@@ -122,8 +122,11 @@ package
 		override public function draw():void
 		{
 			super.draw();
-			frame.draw();
-			healthBar.draw();
+			if(this.health != MAX_HEALTH){
+				frame.draw();
+				healthBar.draw();
+			}
+			
 			
 		}
 	}
