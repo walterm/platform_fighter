@@ -29,7 +29,7 @@ package
 		
 		public static var PLAYER_DAMAGE:int = 10;
 		public static var INITIAL_TIME:int = 60;
-		public static var ENEMY_TIME_REWARD = 1;
+		public static var ENEMY_TIME_REWARD = 2;
 		
 		public var gameTimer:Number;
 		public var elapsedTime:Number;
@@ -114,8 +114,8 @@ package
 			
 
 			//adding instructions 
-			instructionText = (new FlxText(0,30,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies."))
-			add (instructionText)
+			instructionText = new FlxText(0,30,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies.");
+			add(instructionText);
 			
 			//Adding in the player
 			player = new Player();
@@ -144,31 +144,31 @@ package
 			timerText = new FlxText(0,0,300,"Time: " + FlxU.ceil(gameTimer).toString());
 			scoreText = new FlxText(FlxG.width - 60,0,300, "Score: " + enemies.countDead().toString());
 			if (elapsedTime < 5) {
-				instructionText = (new FlxText(0,30,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies."))
+				instructionText = (new FlxText(0,FlxG.width /2 + 55,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies."))
 			}
 			else if (elapsedTime <10){
-				instructionText = (new FlxText(0,30,FlxG.width,"If you fall off the platform or run out of time you die. When the humans touch you they shove you and take away some of your time... Those mean humans :( "))
+				instructionText = (new FlxText(0,FlxG.width /2 + 45,FlxG.width,"If you fall off the platform or run out of time you die. When the humans touch you they shove you and take away some of your time... Those mean humans :( "))
 			}
 			else if (elapsedTime <15){
-				instructionText = (new FlxText(40,30,FlxG.width,"You can prolong your life by killing the humans"))
+				instructionText = (new FlxText(40,FlxG.width /2 + 55,FlxG.width,"You can prolong your life by killing the humans"))
 			}
 			else if (elapsedTime <20){
-				instructionText = (new FlxText(0,30,FlxG.width,"If you need a break from all this intensity you can press P to pause"))
+				instructionText = (new FlxText(0,FlxG.width /2 + 55,FlxG.width,"If you need a break from all this intensity you can press P to pause"))
 			}
 			else if (elapsedTime <30) {
-				instructionText = (new FlxText(FlxG.width/2 -25,30 ,FlxG.width,"Good Luck!"))
+				instructionText = (new FlxText(FlxG.width/2 -25,FlxG.width /2 + 55 ,FlxG.width,"Good Luck!"))
 			}
 			else if (elapsedTime <40){
-				instructionText = (new FlxText(FlxG.width/4 -5,30,FlxG.width,"Are you still reading these messages?"))
+				instructionText = (new FlxText(FlxG.width/4 -5,FlxG.width /2 + 55,FlxG.width,"Are you still reading these messages?"))
 			}
 			else if (elapsedTime <60){
-				instructionText = (new FlxText(60,30,FlxG.width,"You really should be focusing more on surviving..."))
+				instructionText = (new FlxText(50,FlxG.width /2 + 55,FlxG.width,"You really should be focusing more on surviving..."))
 			}
 			else if (elapsedTime <100){
-				instructionText = (new FlxText(10,30,FlxG.width,"Man you are pretty good at this, maybe you will live forever"))
+				instructionText = (new FlxText(10,FlxG.width /2 + 55,FlxG.width,"Man you are pretty good at this, maybe you will live forever"))
 			}
 			else if (true){
-				instructionText = (new FlxText(25,30,FlxG.width,"I don't think I've seen any other robot survive this long"))
+				instructionText = (new FlxText(25,FlxG.width /2 + 55,FlxG.width,"I don't think I've seen any other robot survive this long"))
 			}
 				
 			add(timerText);
