@@ -25,7 +25,7 @@ package
 		private static var DRAG_FACTOR:int = 4;
 		private static var GRAVITY_ACCEL:int = 200;
 		private static var MAX_X_VEL:int = 80;
-		private static var MAX_Y_VEL:int = 200;
+		private static var MAX_Y_VEL:int = 225;
 		private static var X_ACCEL_SCALAR:int = 4;
 		private static var Y_ACCEL_SCALAR:Number = 0.5;
 		private static var KNOCKBACK_VEL:Number = 100;
