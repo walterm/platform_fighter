@@ -37,6 +37,7 @@ package
 		public static var timerText:FlxText;
 		public static var scoreText:FlxText;
 		public  var instructionText:FlxText;
+		public static var pauseText:FlxText;
 		
 		public static var endText:FlxText;
 		
@@ -47,6 +48,7 @@ package
 			scoreText = new FlxText(0,FlxG.width - 60, 300, "Score: 0");
 			
 			endText = new FlxText(FlxG.width/2,2*FlxG.height/5, 300, "You killed 0 humans and lasted 0 seconds");
+			pauseText = new FlxText(0,15, 300, "P - Pause");
 			
 			gameTimer = INITIAL_TIME;
 			elapsedTime = 0;
@@ -101,6 +103,7 @@ package
 			
 			add(timerText);
 			add(scoreText);
+			add(pauseText);
 			
 			//Making the Pause menu
 			paused = false;
@@ -174,7 +177,7 @@ package
 			add(timerText);
 			add(scoreText);
 			add (instructionText);
-			endText = new FlxText(FlxG.width/2 - 100 ,2*FlxG.height/5, 300, ("You killed "+ enemies.countDead().toString()+ " humans and lasted " +  FlxU.ceil(elapsedTime).toString() + " seconds"));
+			endText = new FlxText(FlxG.width/2 - 100 ,2*FlxG.height/5, 300, ("You killed "+ enemies.countDead().toString()+ " human(s) and lasted " +  FlxU.ceil(elapsedTime).toString() + " seconds"));
 			spawn();
 			super.update();
 		}
