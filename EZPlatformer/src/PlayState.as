@@ -13,6 +13,8 @@ package
 	import org.flixel.FlxTilemap;
 	import org.flixel.FlxU;
 	
+	import flash.external.*;
+	
 	public class PlayState extends FlxState
 	{
 		public var LifeText:FlxText;

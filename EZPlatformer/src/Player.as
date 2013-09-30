@@ -1,6 +1,8 @@
 package
 {
 	
+	import flash.external.ExternalInterface;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
 	import org.flixel.FlxSprite;
@@ -97,6 +99,10 @@ package
 			}
 		}
 		
+		public function keyEvent(code:String):void {
+			// do something with the "code" parameter, that looks like "alt+ctrl+D", may use .split('+'), etc
+		}
+		
 		override public function update():void
 		{	
 			super.update();
@@ -107,6 +113,10 @@ package
 			
 			var right:Boolean = (FlxG.keys.RIGHT || FlxG.keys.D);
 			var left:Boolean = (FlxG.keys.LEFT || FlxG.keys.A);
+			
+			ExternalInterface.addCallback('keyEvent',keyEvent);
+			
+			
 			
 			if (left){
 				acceleration.x = -maxVelocity.x * X_ACCEL_SCALAR;
