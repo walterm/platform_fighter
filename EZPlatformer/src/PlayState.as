@@ -15,6 +15,7 @@ package
 	
 	public class PlayState extends FlxState
 	{
+		public var LifeText:FlxText;
 		public var level:FlxTilemap;
 		public var bg2:FlxTilemap;
 		public var player:Player;
@@ -26,12 +27,14 @@ package
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
 		public var HealthBar:FlxSprite;
+		public var LifeBar:FlxSprite;
 		
 		public static var PLAYER_DAMAGE:int = 10;
 		public static var INITIAL_TIME:int = 60;
-		public static var ENEMY_TIME_REWARD = 2;
+		public static var ENEMY_TIME_REWARD:int = 2;
 		
 		public var gameTimer:Number;
+		public var life:Number;
 		public var elapsedTime:Number;
 		
 		public static var timerText:FlxText;
@@ -46,6 +49,8 @@ package
 			FlxG.bgColor = 0xffaaaaaa;
 			
 			scoreText = new FlxText(0,FlxG.width - 60, 300, "Score: 0");
+			
+			LifeText = new FlxText(FlxG.width/2 - 10, 0, 300, "LIFE");
 			
 			endText = new FlxText(FlxG.width/2,2*FlxG.height/5, 300, "You killed 0 humans and lasted 0 seconds");
 			pauseText = new FlxText(0,15, 300, "P - Pause");
@@ -62,6 +67,10 @@ package
 			//Get the HealthBar
 			[Embed(source='res/HealthBar.png')]
 			var ImgHealthBar:Class;
+			
+			//Get the LifeBar
+			[Embed(source='res/LifeBar.png')]
+			var ImgLifeBar:Class;
 			
 			//Get the tilemap from tile.png
 			[Embed(source='res/tiles.png')]
@@ -101,6 +110,7 @@ package
 			enemies.add(enemy);
 			add(enemies);
 			
+			add(LifeText);
 			add(timerText);
 			add(scoreText);
 			add(pauseText);
@@ -115,18 +125,23 @@ package
 			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 4*FlxG.height/5, "Main Menu", mainMenuCallback);
 			pauseGroup.add (MenuButton);
 			
+			//adding the life bar
+			var LifeBar:FlxSprite = new FlxSprite(FlxG.width/2, 10, ImgLifeBar);
+			LifeBar.scale.x = 100;
+			add(LifeBar);
 
 			//adding instructions 
 			instructionText = new FlxText(0,30,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies.");
 			add(instructionText);
 			
 			//Adding in the player
-			player = new Player();
+			player = new Player(LifeBar);
 			add(player);
 		}
 		
 		override public function update():void
 		{
+			
 			if(FlxG.keys.justPressed("P"))
 				paused = !paused;
 			if(paused)
@@ -173,6 +188,7 @@ package
 			else if (true){
 				instructionText = (new FlxText(25,FlxG.width /2 + 55,FlxG.width,"I don't think I've seen any other robot survive this long"))
 			}
+			
 				
 			add(timerText);
 			add(scoreText);
@@ -191,6 +207,7 @@ package
 			}
 		}
 		
+
 		override public function draw():void
 		{
 			if(paused)
