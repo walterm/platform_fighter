@@ -26,6 +26,7 @@ package
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
 		public var HealthBar:FlxSprite;
+		public var LifeBar:FlxSprite;
 		
 		public static var PLAYER_DAMAGE:int = 10;
 		public static var INITIAL_TIME:int = 60;
@@ -62,6 +63,10 @@ package
 			//Get the HealthBar
 			[Embed(source='res/HealthBar.png')]
 			var ImgHealthBar:Class;
+			
+			//Get the LifeBar
+			[Embed(source='res/LifeBar.png')]
+			var ImgLifeBar:Class;
 			
 			//Get the tilemap from tile.png
 			[Embed(source='res/tiles.png')]
@@ -115,6 +120,9 @@ package
 			var MenuButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 4*FlxG.height/5, "Main Menu", mainMenuCallback);
 			pauseGroup.add (MenuButton);
 			
+			//adding the life bar
+			var LifeBar:FlxSprite = new FlxSprite(FlxG.width/2, 4*FlxG.height/5, ImgLifeBar);
+			add(LifeBar);
 
 			//adding instructions 
 			instructionText = new FlxText(0,30,FlxG.width,"Use arrow keys or WASD to move and up to jump. Use space to shoot your enemies.");
@@ -173,6 +181,9 @@ package
 			else if (true){
 				instructionText = (new FlxText(25,FlxG.width /2 + 55,FlxG.width,"I don't think I've seen any other robot survive this long"))
 			}
+			
+			//Update LifeBar
+			LifeBar.scale.x = 10;
 				
 			add(timerText);
 			add(scoreText);
