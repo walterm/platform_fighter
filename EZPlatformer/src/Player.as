@@ -31,17 +31,16 @@ package
 		private static var KNOCKBACK_VEL:Number = 100;
 		private static var KNOCKBACK_DURATION:Number = .2;
 		private static var INVULNERABILITY_TIME:Number = 0.5;
-//		private static var HealthBar:FlxSprite;
+		private static var LifeBar:FlxSprite;
 		
 		private var knockbackRight:Number; // 1 if right -1 if left
 		private var damageTime:Number;
 		private var invulnerable:Boolean;
 		
-		public function Player()
+		public function Player(LBar)
 		{
 			super(FlxG.width / 2, FlxG.height/2-10);
-			
-//			HealthBar = HBar;
+			LifeBar = LBar;
 			
 			// Loading image
 			loadGraphic(ImgPlayer, true, true, 14, 15);
@@ -84,7 +83,6 @@ package
 			}else
 				return false;
 			
-//			HealthBar.scale.x = health/2;
 		}
 		
 		public function isFiring():Boolean
@@ -102,6 +100,8 @@ package
 		override public function update():void
 		{	
 			super.update();
+			
+			LifeBar.scale.x = (FlxG.state as PlayState).gameTimer/2;
 			
 			acceleration.x = 0;
 			

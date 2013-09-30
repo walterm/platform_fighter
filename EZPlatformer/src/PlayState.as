@@ -15,6 +15,7 @@ package
 	
 	public class PlayState extends FlxState
 	{
+		public var LifeText:FlxText;
 		public var level:FlxTilemap;
 		public var bg2:FlxTilemap;
 		public var player:Player;
@@ -30,7 +31,7 @@ package
 		
 		public static var PLAYER_DAMAGE:int = 10;
 		public static var INITIAL_TIME:int = 60;
-		public static var ENEMY_TIME_REWARD = 2;
+		public static var ENEMY_TIME_REWARD:int = 2;
 		
 		public var gameTimer:Number;
 		public var life:Number;
@@ -48,6 +49,8 @@ package
 			FlxG.bgColor = 0xffaaaaaa;
 			
 			scoreText = new FlxText(0,FlxG.width - 60, 300, "Score: 0");
+			
+			LifeText = new FlxText(FlxG.width/2 - 10, 0, 300, "LIFE");
 			
 			endText = new FlxText(FlxG.width/2,2*FlxG.height/5, 300, "You killed 0 humans and lasted 0 seconds");
 			pauseText = new FlxText(0,15, 300, "P - Pause");
@@ -107,6 +110,7 @@ package
 			enemies.add(enemy);
 			add(enemies);
 			
+			add(LifeText);
 			add(timerText);
 			add(scoreText);
 			add(pauseText);
@@ -131,7 +135,7 @@ package
 			add(instructionText);
 			
 			//Adding in the player
-			player = new Player();
+			player = new Player(LifeBar);
 			add(player);
 		}
 		
