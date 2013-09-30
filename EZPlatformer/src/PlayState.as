@@ -33,6 +33,7 @@ package
 		public static var ENEMY_TIME_REWARD = 2;
 		
 		public var gameTimer:Number;
+		public var life:Number;
 		public var elapsedTime:Number;
 		
 		public static var timerText:FlxText;
@@ -121,7 +122,8 @@ package
 			pauseGroup.add (MenuButton);
 			
 			//adding the life bar
-			var LifeBar:FlxSprite = new FlxSprite(FlxG.width/2, 4*FlxG.height/5, ImgLifeBar);
+			var LifeBar:FlxSprite = new FlxSprite(FlxG.width/2, 10, ImgLifeBar);
+			LifeBar.scale.x = 100;
 			add(LifeBar);
 
 			//adding instructions 
@@ -135,6 +137,7 @@ package
 		
 		override public function update():void
 		{
+			
 			if(FlxG.keys.justPressed("P"))
 				paused = !paused;
 			if(paused)
@@ -182,8 +185,6 @@ package
 				instructionText = (new FlxText(25,FlxG.width /2 + 55,FlxG.width,"I don't think I've seen any other robot survive this long"))
 			}
 			
-			//Update LifeBar
-			LifeBar.scale.x = 10;
 				
 			add(timerText);
 			add(scoreText);
@@ -202,6 +203,7 @@ package
 			}
 		}
 		
+
 		override public function draw():void
 		{
 			if(paused)
