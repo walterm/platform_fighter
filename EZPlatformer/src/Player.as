@@ -1,7 +1,6 @@
 package
 {
 	
-	import flash.external.ExternalInterface;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxObject;
@@ -99,9 +98,6 @@ package
 			}
 		}
 		
-		public function keyEvent(code:String):void {
-			// do something with the "code" parameter, that looks like "alt+ctrl+D", may use .split('+'), etc
-		}
 		
 		override public function update():void
 		{	
@@ -114,7 +110,6 @@ package
 			var right:Boolean = (FlxG.keys.RIGHT || FlxG.keys.D);
 			var left:Boolean = (FlxG.keys.LEFT || FlxG.keys.A);
 			
-			ExternalInterface.addCallback('keyEvent',keyEvent);
 			
 			
 			
